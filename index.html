@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Position Size Calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .table td {
+            vertical-align: middle;
+        }
+        .table tbody tr:nth-child(5n+1) {
+            background-color: #e5f3ff;
+        }
+        .table tbody tr:nth-child(5n+2) {
+            background-color: #cce5ff;
+        }
+        .table tbody tr:nth-child(5n+3) {
+            background-color: #b3d7ff;
+        }
+        .table tbody tr:nth-child(5n+4) {
+            background-color: #99caff;
+        }
+        .table tbody tr:nth-child(5n+5) {
+            background-color: #80bcff;
+        }
+        .table tbody tr:nth-child(5n+5) td {
+            border-bottom: 10px solid #FFFFFF;
+        }
+        h1 {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+    </style>
+    <script>
+      $(document).ready(function(){
+        $("#portfolioSize").on("input", function(){
+          var portfolioSize = $("#portfolioSize").val();
+          var resultHtml = "";
+          var riskPercentages = [0.5, 1, 2, 3];
+          var stopLossPercentages = [1, 2, 3, 4, 5];
+          for(var i=0; i<riskPercentages.length; i++){
+            for(var j=0; j<stopLossPercentages.length; j++){
+              var riskPercentage = riskPercentages[i];
+              var stopLossPercentage = stopLossPercentages[j];
+              var positionSize = (riskPercentage/100)*portfolioSize/(stopLossPercentage/100);
+              resultHtml += "<tr><td>"+riskPercentage+"%</td><td>"+stopLossPercentage+"%</td><td>"+positionSize.toFixed(2)+"</td></tr>";
+            }
+          }
+          $("#resultTable").html(resultHtml);
+        });
+      });
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Position Size Calculator</h1>
+    <form>
+        <div class="form-group">
+            <label for="portfolioSize"></label>
+            <input type="number" class="form-control" id="portfolioSize" placeholder="Enter portfolio size">
+        </div>
+    </form>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Risk Percentage</th>
+            <th>Stop Loss Percentage</th>
+            <th>Position Size</th>
+        </tr>
+        </thead>
+        <tbody id="resultTable">
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
